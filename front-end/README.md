@@ -1,73 +1,71 @@
-# React + TypeScript + Vite
+# Chat App — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Project overview
 
-Currently, two official plugins are available:
+- A modern chat frontend built with React + TypeScript, Vite, TailwindCSS and shadcn/ui. It connects to a REST API via Axios and to realtime messaging via Socket.io. State is managed with Zustand and server state with React Query.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Tech stack
 
-## React Compiler
+- React 18 + TypeScript
+- Vite
+- TailwindCSS
+- shadcn/ui components
+- React Router
+- Zustand (global state)
+- React Query (server state)
+- Axios (HTTP client)
+- Socket.io-client (realtime)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Installation
 
-## Expanding the ESLint configuration
+1. Clone the repo and change into the frontend folder:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+git clone <repo>
+cd front-end
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. Install dependencies:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+# or
+pnpm install
 ```
+
+Run project (development)
+
+```bash
+npm run dev
+# opens Vite dev server (hot reload)
+```
+
+Build project
+
+```bash
+npm run build
+npm run preview
+```
+
+Environment variables
+
+- Create a `.env` file in `front-end/` or use environment-specific files.
+- Typical variables the app expects:
+
+- `VITE_API_BASE_URL` — base URL for the REST API
+- `VITE_SOCKET_URL` — URL for socket.io server
+- `VITE_APP_NAME` — optional display name
+
+Folder structure overview (top-level)
+
+- `src/` — application source
+- `src/components/` — shared UI components (shadcn wrappers + custom controls)
+- `src/pages/` — route-level pages (Home, Profile, auth)
+- `src/hooks/` — custom React hooks
+- `src/lib/` — small helpers and utilities
+- `src/store/` — Zustand stores
+- `src/style/` — CSS / Tailwind entry (global styles)
+- `src/router.ts` — app routing configuration
+- `src/main.tsx` — app entry
+
+For more details see `FOLDER_STRUCTURE.md` and per-topic docs in this folder.
