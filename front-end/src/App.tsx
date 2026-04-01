@@ -1,3 +1,4 @@
+import "./App.css";
 import { useCallback } from "react";
 
 function App() {
@@ -11,13 +12,20 @@ function App() {
       return;
     }
 
-    const client = window.google.accounts.oauth2.initCodeClient({
+    const oauth2 = window.google.accounts.oauth2;
+    const init = oauth2.initCodeClient;
+    if (typeof init !== "function") {
+      console.error("initCodeClient không khả dụng");
+      return;
+    }
+
+    const client = init({
       client_id:
         "12980680565-mvs1uv3vs8p01l3go3mkjii19juoahqc.apps.googleusercontent.com",
       scope:
         "openid email profile https://www.googleapis.com/auth/user.birthday.read",
       ux_mode: "popup",
-      callback: (resp) => {
+      callback: (resp: { code?: string; error?: string }) => {
         console.log("CODE:", resp.code);
 
         fetch("https://localhost:443/api/v1/auth/google/login", {
@@ -38,6 +46,11 @@ function App() {
       },
     });
 
+    if (!client || typeof client.requestCode !== "function") {
+      console.error("client.requestCode không khả dụng");
+      return;
+    }
+
     client.requestCode();
   }, []);
 
@@ -47,5 +60,4 @@ function App() {
     </div>
   );
 }
-
 export default App;
