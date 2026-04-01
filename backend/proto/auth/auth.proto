@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package proto;
+
+import "buf/validate/validate.proto";
+
+option go_package = "internal/gen-proto/auth;auth_proto";
+
+service AuthService {
+  rpc LoginGoogle(LoginRequest) returns (LoginResponse);
+  rpc Logout(LogoutRequest) returns (LogoutResponse);
+  rpc LogoutAll(LogoutAllRequest) returns (LogoutAllResponse);
+}
+
+message LoginRequest {
+  string author_code = 1 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).string.min_len = 10
+  ];
+}
+
+message LoginResponse {
+  string session = 1;
+  int64 user_id = 2;
+  string device_id =3;
+}
+
+message LogoutRequest {
+  string session_id = 1 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).string.uuid = true
+  ];
+  string device_id = 2 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).string.uuid = true
+  ];
+}
+
+message LogoutResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message LogoutAllRequest {
+  int64 user_id = 1 [
+    (buf.validate.field).required = true
+  ];
+}
+
+message LogoutAllResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+
